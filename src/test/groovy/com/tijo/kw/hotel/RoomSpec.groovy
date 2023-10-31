@@ -50,4 +50,20 @@ class RoomSpec extends Specification implements RoomSample {
         then: "Room is not added"
         roomFacade.addRoom(createRoom())
     }
+
+    def "Normal user can't add any room"() {
+        given: "The logged user has role USER"
+        and: "The type of room is added before"
+        when: "User adds the room with right values"
+        then: "Room is not added"
+        roomFacade.addRoom(createRoom())
+    }
+
+    def "Unlogged user can't add any room"() {
+        given: "The user isn't logged in"
+        and: "The type of room is added before"
+        when: "Unlogged user adds the room with right values"
+        then: "Room is not added"
+        roomFacade.addRoom(createRoom())
+    }
 }
