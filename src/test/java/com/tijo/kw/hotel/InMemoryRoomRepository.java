@@ -1,7 +1,7 @@
 package com.tijo.kw.hotel;
 
-import com.tijo.kw.hotel.entity.Room;
-import com.tijo.kw.hotel.repository.RoomRepository;
+import com.tijo.kw.hotel.room.entity.Room;
+import com.tijo.kw.hotel.room.repository.RoomRepository;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -1,4 +1,4 @@
-package com.tijo.kw.hotel
+package com.tijo.kw.hotel.samples
 
 import com.tijo.kw.hotel.dto.ReservationDto
 import java.time.LocalDate

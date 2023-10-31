@@ -1,8 +1,9 @@
-package com.tijo.kw.hotel.dto;
+package com.tijo.kw.hotel.room.dto;
 
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
@@ -14,4 +15,6 @@ public class RoomDto {
     UUID typeId;
     int floor;
     String photoUrl;
+
+
 }

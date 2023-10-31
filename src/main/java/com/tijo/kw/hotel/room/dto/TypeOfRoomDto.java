@@ -1,4 +1,4 @@
-package com.tijo.kw.hotel.dto;
+package com.tijo.kw.hotel.room.dto;
 
 import lombok.Builder;
 import lombok.Getter;

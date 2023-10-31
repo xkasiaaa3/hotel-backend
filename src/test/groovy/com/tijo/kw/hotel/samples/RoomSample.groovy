@@ -1,6 +1,6 @@
-package com.tijo.kw.hotel
+package com.tijo.kw.hotel.samples
 
-import com.tijo.kw.hotel.dto.RoomDto
+import com.tijo.kw.hotel.room.dto.RoomDto
 
 trait RoomSample implements TypeOfRoomSample {
 

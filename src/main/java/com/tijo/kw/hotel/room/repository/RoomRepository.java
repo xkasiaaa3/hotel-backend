@@ -1,6 +1,6 @@
-package com.tijo.kw.hotel.repository;
+package com.tijo.kw.hotel.room.repository;
 
-import com.tijo.kw.hotel.entity.Room;
+import com.tijo.kw.hotel.room.entity.Room;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

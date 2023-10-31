@@ -1,4 +1,4 @@
-package com.tijo.kw.hotel.entity;
+package com.tijo.kw.hotel.room.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
