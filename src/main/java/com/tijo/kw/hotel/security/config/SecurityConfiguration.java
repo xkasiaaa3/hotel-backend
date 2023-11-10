@@ -1,5 +1,6 @@
 package com.tijo.kw.hotel.security.config;
 
+import com.tijo.kw.hotel.user.Role;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -25,17 +26,13 @@ public class SecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(request -> request.requestMatchers("/api/auth/**","/swagger-ui/**")
+            .authorizeHttpRequests(request -> request.requestMatchers("/api/auth/**", "swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**")
                     .permitAll()
-
+//                    .requestMatchers("").hasAuthority(Role.USER.name())
+//                    .requestMatchers("").hasAuthority(Role.ADMIN.name())
                     .anyRequest().authenticated())
-            .securityMatcher("/swagger-ui/**")
             .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
             .authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-    ;
-//            .securityMatcher("/swagger-ui/**","/api/**")
-
     return http.build();
   }
 }
