@@ -8,6 +8,10 @@
             <sqlFile path="db/changelog/sql/1-KB.sql" splitStatements="true" endDelimiter=";" stripComments="true"></sqlFile>
             <comment>dodanie tabel reservations, users, types of room i rooms</comment>
         </changeSet>
+    <changeSet id="2" author="w.schabowski">
+        <sqlFile path="db/changelog/sql/2-ws.sql" splitStatements="true" endDelimiter=";" stripComments="true"></sqlFile>
+        <comment>dodanie w tabeli user password i usunięcie kolumny phone number</comment>
+    </changeSet>
 
 
     <!--    example-->
