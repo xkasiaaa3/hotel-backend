@@ -1,10 +1,12 @@
 package com.tijo.kw.hotel.samples
 
 import com.tijo.kw.hotel.dto.UserDto
+import com.tijo.kw.hotel.security.auth.AuthenticationRequest
+import com.tijo.kw.hotel.security.auth.RegisterRequest
 
 trait UserSample {
 
-    def USER_ID = UUID.randomUUID()
+    UUID USER_ID = UUID.randomUUID()
 
     private Map<String, Object> DEFAULT_USER = [
             id         : USER_ID,
@@ -26,5 +28,21 @@ trait UserSample {
                 .role(result.role as String)
                 .build()
     }
+
+    String USER_EMAIL = "jk@fake.pl"
+    String USER_PASSWORD = "qwert12345"
+
+
+    RegisterRequest REGISTER_REQUEST = RegisterRequest.builder()
+            .firstName("Jan")
+            .lastName("Kowalski")
+            .email(USER_EMAIL)
+            .password(USER_PASSWORD)
+            .build()
+
+    AuthenticationRequest AUTHENTICATION_REQUEST = AuthenticationRequest.builder()
+            .email(USER_EMAIL)
+            .password(USER_PASSWORD)
+            .build()
 
 }

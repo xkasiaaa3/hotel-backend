@@ -2,68 +2,74 @@ package com.tijo.kw.hotel
 
 import com.tijo.kw.hotel.room.domain.RoomFacade
 import com.tijo.kw.hotel.room.dto.RoomDto
+import com.tijo.kw.hotel.room.dto.TypeOfRoomDto
+import com.tijo.kw.hotel.room.exception.InvalidValuesException
+import com.tijo.kw.hotel.room.repository.RoomRepository
+import com.tijo.kw.hotel.room.repository.TypeOfRoomRepository
 import com.tijo.kw.hotel.samples.RoomSample
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class RoomSpec extends Specification implements RoomSample {
 
-    RoomFacade roomFacade;
+    RoomRepository roomRepository = new InMemoryRoomRepository();
+    TypeOfRoomRepository typeOfRoomRepository = new InMemoryTypeOfRoomRepository();
+    RoomFacade roomFacade = new RoomFacade(roomRepository, typeOfRoomRepository);
+
+    def setup() {
+        roomFacade.addTypeOfRoom(createTypeOfRoom())
+    }
 
     def "Admin can add a room with right values"() {
-        given: "The logged user has role ADMIN"
-        and: "The type of room is added before"
         when: "User adds the room with right values"
         RoomDto newRoom = roomFacade.addRoom(createRoom())
         then: "Room is added"
         newRoom == createRoom()
     }
 
+    @Unroll
     def "Admin can't add a room with empty values"() {
-        given: "The logged user has role ADMIN"
-        and: "The type of room is added before"
         when: "User adds the room with empty values"
-        roomFacade.addRoom(createRoom())
+        roomFacade.addRoom(room)
         then: "Room is not added"
+        thrown(InvalidValuesException)
+        where:
+        room << [createRoom([photoUrl: null]), createRoom([photoUrl: ""]), createRoom([floor: null]), createRoom([number: null])]
     }
 
-    def "Admin can't add a room if there is a room with the same id"() {
-        given: "The logged user has role ADMIN"
-        and: "The type of room is added before"
-        and: "THe room with the same id is added before"
-        when: "User adds the room with the same id"
+    @Unroll
+    def "Admin can't add a room with number or floor below 0"() {
+        when: "User adds the room with invalid values"
+        roomFacade.addRoom(room)
         then: "Room is not added"
-        roomFacade.addRoom(createRoom())
+        thrown(InvalidValuesException)
+        where:
+        room << [createRoom([number: -1]), createRoom([floor: -1])]
     }
 
     def "Admin can't add a room if there is a room with the same room number"() {
-        given: "The logged user has role ADMIN"
-        and: "The type of room is added before"
-        and: "THe room with the same room number is added before"
-        when: "User adds the room with the same room number"
-        then: "Room is not added"
+        given: "The room is added"
         roomFacade.addRoom(createRoom())
+        when: "User adds the room with the same room number"
+        roomFacade.addRoom(createRoom(id: UUID.randomUUID()))
+        then: "Room is not added"
+        thrown(InvalidValuesException)
     }
 
     def "Admin can't add a room if the type of said room is not existing"() {
-        given: "The logged user has role ADMIN"
         when: "User adds the room with not existing type of room"
+        roomFacade.addRoom(createRoom(typeId: UUID.randomUUID()))
         then: "Room is not added"
-        roomFacade.addRoom(createRoom())
+        thrown(InvalidValuesException)
     }
 
-    def "Normal user can't add any room"() {
-        given: "The logged user has role USER"
-        and: "The type of room is added before"
-        when: "User adds the room with right values"
-        then: "Room is not added"
+    def "Admin can delete room if there are no reservations"() {
+        given: "The room is added"
         roomFacade.addRoom(createRoom())
+        when: "User deletes the room"
+        def result = roomFacade.deleteRoom(ROOM_ID)
+        then: "Room is deleted"
+        result
     }
 
-    def "Unlogged user can't add any room"() {
-        given: "The user isn't logged in"
-        and: "The type of room is added before"
-        when: "Unlogged user adds the room with right values"
-        then: "Room is not added"
-        roomFacade.addRoom(createRoom())
-    }
 }

@@ -5,9 +5,9 @@ import java.time.LocalDate
 
 trait ReservationSample implements RoomSample, UserSample {
 
-    def RESERVATION_ID = UUID.randomUUID()
-    def START_DATE = LocalDate.parse("2030-06-06")
-    def END_DATE =LocalDate.parse("2030-06-08")
+    UUID RESERVATION_ID = UUID.randomUUID()
+    LocalDate START_DATE = LocalDate.parse("2030-06-06")
+    LocalDate END_DATE =LocalDate.parse("2030-06-08")
 
     private Map<String, Object> DEFAULT_RESERVATION = [
             id          : RESERVATION_ID,

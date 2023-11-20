@@ -4,7 +4,7 @@ import com.tijo.kw.hotel.room.dto.TypeOfRoomDto
 
 trait TypeOfRoomSample {
 
-    def ROOM_TYPE_ID = UUID.randomUUID()
+    UUID ROOM_TYPE_ID = UUID.randomUUID()
 
     private Map<String, Object> DEFAULT_ROOM_TYPE = [
             id            : ROOM_TYPE_ID,
