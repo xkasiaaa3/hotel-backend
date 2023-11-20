@@ -23,7 +23,7 @@ public class AuthenticationService {
   JwtService jwtService;
   AuthenticationManager authenticationManager;
 
-  public AuthenticationResponse register(RegisterRequest request) {
+  public void register(RegisterRequest request) {
     var user = User.builder()
             .name(request.getFirstName())
             .surname(request.getLastName())
@@ -32,10 +32,6 @@ public class AuthenticationService {
             .role(Role.USER)
             .build();
     repository.save(user);
-    var jwtToken = jwtService.generateToken(user);
-    return AuthenticationResponse.builder()
-            .token(jwtToken)
-            .build();
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
