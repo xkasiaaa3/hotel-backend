@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,6 +29,7 @@ public class SecurityConfiguration {
     http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(request -> request.requestMatchers("/api/auth/**", "swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**")
                     .permitAll()
+                    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 //                    .requestMatchers("").hasAuthority(Role.USER.name())
 //                    .requestMatchers("").hasAuthority(Role.ADMIN.name())
                     .anyRequest().authenticated())
