@@ -4,7 +4,7 @@ import com.tijo.kw.hotel.room.dto.TypeOfRoomDto
 
 trait TypeOfRoomSample {
 
-    UUID ROOM_TYPE_ID = UUID.randomUUID()
+    static UUID ROOM_TYPE_ID = UUID.randomUUID()
 
     private Map<String, Object> DEFAULT_ROOM_TYPE = [
             id            : ROOM_TYPE_ID,
@@ -24,9 +24,9 @@ trait TypeOfRoomSample {
                 .name(result.name as String)
                 .numberOfPeople(result.numberOfPeople as Integer)
                 .numberOfBeds(result.numberOfBeds as Integer)
-                .bathroom(result.bathroom as boolean)
-                .balcony(result.balcony as boolean)
-                .pricePerDay(result.pricePerDay as double)
+                .bathroom(result.bathroom as Boolean)
+                .balcony(result.balcony as Boolean)
+                .pricePerDay(result.pricePerDay as Double)
                 .build()
     }
 }

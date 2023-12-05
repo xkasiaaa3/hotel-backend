@@ -3,7 +3,9 @@ package com.tijo.kw.hotel
 import com.tijo.kw.hotel.room.domain.RoomFacade
 import com.tijo.kw.hotel.room.dto.RoomDto
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto
+import com.tijo.kw.hotel.room.exception.DuplicateNumberException
 import com.tijo.kw.hotel.room.exception.InvalidValuesException
+import com.tijo.kw.hotel.room.exception.RoomTypeNotExistingException
 import com.tijo.kw.hotel.room.repository.RoomRepository
 import com.tijo.kw.hotel.room.repository.TypeOfRoomRepository
 import com.tijo.kw.hotel.samples.RoomSample
@@ -53,14 +55,14 @@ class RoomSpec extends Specification implements RoomSample {
         when: "User adds the room with the same room number"
         roomFacade.addRoom(createRoom(id: UUID.randomUUID()))
         then: "Room is not added"
-        thrown(InvalidValuesException)
+        thrown(DuplicateNumberException)
     }
 
     def "Admin can't add a room if the type of said room is not existing"() {
         when: "User adds the room with not existing type of room"
         roomFacade.addRoom(createRoom(typeId: UUID.randomUUID()))
         then: "Room is not added"
-        thrown(InvalidValuesException)
+        thrown(RoomTypeNotExistingException)
     }
 
     def "Admin can delete room if there are no reservations"() {

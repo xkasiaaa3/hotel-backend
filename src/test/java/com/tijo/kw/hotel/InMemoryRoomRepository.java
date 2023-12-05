@@ -8,12 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class InMemoryRoomRepository implements RoomRepository {
+
+    List<Room> table = new ArrayList<>();
+
     @Override
     public void flush() {
 
@@ -96,7 +98,8 @@ public class InMemoryRoomRepository implements RoomRepository {
 
     @Override
     public <S extends Room> S save(S entity) {
-        return null;
+        table.add(entity);
+        return entity;
     }
 
     @Override
@@ -116,7 +119,7 @@ public class InMemoryRoomRepository implements RoomRepository {
 
     @Override
     public List<Room> findAll() {
-        return null;
+        return table;
     }
 
     @Override
@@ -162,5 +165,10 @@ public class InMemoryRoomRepository implements RoomRepository {
     @Override
     public Page<Room> findAll(Pageable pageable) {
         return null;
+    }
+
+    @Override
+    public boolean existsByNumber(int number) {
+        return !table.stream().filter(room -> room.getNumber() == number).collect(Collectors.toList()).isEmpty();
     }
 }

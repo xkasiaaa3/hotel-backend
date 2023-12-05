@@ -4,10 +4,18 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+@Builder
 @Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name="rooms")
 public class Room {
 

@@ -8,12 +8,17 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class InMemoryTypeOfRoomRepository implements TypeOfRoomRepository{
+
+    List<TypeOfRoom> table = new ArrayList<>();
+
     @Override
     public void flush() {
 
@@ -96,7 +101,8 @@ public class InMemoryTypeOfRoomRepository implements TypeOfRoomRepository{
 
     @Override
     public <S extends TypeOfRoom> S save(S entity) {
-        return null;
+        table.add(entity);
+        return entity;
     }
 
     @Override
@@ -111,12 +117,12 @@ public class InMemoryTypeOfRoomRepository implements TypeOfRoomRepository{
 
     @Override
     public boolean existsById(UUID uuid) {
-        return false;
+        return !table.stream().filter(type -> type.getId() == uuid).collect(Collectors.toList()).isEmpty();
     }
 
     @Override
     public List<TypeOfRoom> findAll() {
-        return null;
+        return table;
     }
 
     @Override
