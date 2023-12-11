@@ -20,6 +20,16 @@ public class RoomDto {
     Integer floor;
     String photoUrl;
 
+    public static RoomDto fromEntity(Room room) {
+        return RoomDto.builder()
+                .id(room.getId())
+                .typeId(room.getTypeId())
+                .number(room.getNumber())
+                .floor(room.getFloor())
+                .photoUrl(room.getPhotoUrl())
+                .build();
+    }
+
     public Room toEntity() {
         return Room.builder()
                 .id(id)

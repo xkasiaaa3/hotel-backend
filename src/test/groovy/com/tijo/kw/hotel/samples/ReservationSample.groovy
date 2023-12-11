@@ -1,6 +1,6 @@
 package com.tijo.kw.hotel.samples
 
-import com.tijo.kw.hotel.dto.ReservationDto
+import com.tijo.kw.hotel.reservation.dto.ReservationDto
 import java.time.LocalDate
 
 trait ReservationSample implements RoomSample, UserSample {
