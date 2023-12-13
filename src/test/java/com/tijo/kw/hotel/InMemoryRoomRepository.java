@@ -114,7 +114,7 @@ public class InMemoryRoomRepository implements RoomRepository {
 
     @Override
     public boolean existsById(UUID uuid) {
-        return false;
+        return table.stream().anyMatch(r -> r.getId() == uuid);
     }
 
     @Override
