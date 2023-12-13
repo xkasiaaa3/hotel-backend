@@ -1,11 +1,11 @@
 package com.tijo.kw.hotel.room.domain;
 
+import com.tijo.kw.hotel.reservation.dto.ReservationRangeDto;
 import com.tijo.kw.hotel.room.dto.RoomDto;
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto;
 import com.tijo.kw.hotel.room.entity.Room;
 import com.tijo.kw.hotel.room.entity.TypeOfRoom;
 import com.tijo.kw.hotel.room.exception.DuplicateNumberException;
-import com.tijo.kw.hotel.room.exception.InvalidValuesException;
 import com.tijo.kw.hotel.room.exception.RoomTypeNotExistingException;
 import com.tijo.kw.hotel.room.repository.RoomRepository;
 import com.tijo.kw.hotel.room.repository.TypeOfRoomRepository;
@@ -33,7 +33,7 @@ public class RoomFacade {
             throw new DuplicateNumberException("Romm with same number already exists");
         }
 
-        if (!typeOfRoomRepository.existsById(newRoom.getTypeId())){
+        if (!typeOfRoomRepository.existsById(newRoom.getTypeId())) {
             throw new RoomTypeNotExistingException("Room type with given id doesn't exist");
         }
 
@@ -43,7 +43,17 @@ public class RoomFacade {
         return newRoom;
     }
 
+    public List<RoomDto> getRooms() {
+        return roomRepository.findAll().stream().map(RoomDto::fromEntity).collect(Collectors.toList());
+    }
+
     public boolean deleteRoom(UUID roomId) {
+
+        if (!roomRepository.existsById(roomId)) {
+            return false;
+        }
+
+        roomRepository.deleteById(roomId);
         return true;
     }
 
@@ -58,6 +68,11 @@ public class RoomFacade {
     }
 
     public boolean deleteTypeOfRoom(UUID typeOfRoomId) {
+        if (!typeOfRoomRepository.existsById(typeOfRoomId)) {
+            return false;
+        }
+
+        typeOfRoomRepository.deleteById(typeOfRoomId);
         return true;
     }
 
@@ -71,5 +86,9 @@ public class RoomFacade {
 
     private boolean ifRoomExistsByNumber(int roomNumber) {
         return roomRepository.existsByNumber(roomNumber);
+    }
+
+    public List<TypeOfRoomDto> getAvailableTypesOfRoom(ReservationRangeDto reservationRange) {
+        return Collections.emptyList();
     }
 }

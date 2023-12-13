@@ -19,6 +19,16 @@ public class RoomDto {
     UUID typeId;
     Integer floor;
 
+    public static RoomDto fromEntity(Room room) {
+        return RoomDto.builder()
+                .id(room.getId())
+                .typeId(room.getTypeId())
+                .number(room.getNumber())
+                .floor(room.getFloor())
+                .photoUrl(room.getPhotoUrl())
+                .build();
+    }
+
     public Room toEntity() {
         return Room.builder()
                 .id(id)

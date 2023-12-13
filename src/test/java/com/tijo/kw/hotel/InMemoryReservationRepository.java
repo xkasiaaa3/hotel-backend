@@ -1,19 +1,27 @@
 package com.tijo.kw.hotel;
 
-import com.tijo.kw.hotel.entity.Reservation;
-import com.tijo.kw.hotel.repository.ReservationRepository;
+import com.tijo.kw.hotel.reservation.entity.Reservation;
+import com.tijo.kw.hotel.reservation.repository.ReservationRepository;
+import com.tijo.kw.hotel.room.entity.Room;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.FluentQuery;
+import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class InMemoryReservationRepository implements ReservationRepository {
+
+    List<Reservation> table = new ArrayList<>();
     @Override
     public void flush() {
 
@@ -96,7 +104,8 @@ public class InMemoryReservationRepository implements ReservationRepository {
 
     @Override
     public <S extends Reservation> S save(S entity) {
-        return null;
+        table.add(entity);
+        return entity;
     }
 
     @Override
@@ -163,4 +172,15 @@ public class InMemoryReservationRepository implements ReservationRepository {
     public Page<Reservation> findAll(Pageable pageable) {
         return null;
     }
+
+    @Override
+    public List<UUID> getRoomIdsNotAvailable(LocalDate startDate, LocalDate endDate) {
+
+        return table.stream()
+                .filter(r -> r.getStartDate().isBefore(startDate))
+                .filter(r -> r.getEndDate().isAfter(endDate))
+                .map(r -> r.getId())
+                .collect(Collectors.toList());
+    }
+//    @Query("SELECT r.roomId FROM Reservation r WHERE r.startDate <= :startDate AND r.endDate >= :endDate")
 }
