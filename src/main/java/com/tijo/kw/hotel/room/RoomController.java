@@ -14,8 +14,10 @@ import java.util.UUID;
 @RestController
 @RequestMapping(value="/api/room")
 public class RoomController {
-
-    private RoomFacade roomFacade;
+    RoomFacade roomFacade;
+    public RoomController(RoomFacade roomFacade) {
+        this.roomFacade = roomFacade;
+    }
 
     @PostMapping(value ="")
     @Operation(summary = "Adds room and returns it")
