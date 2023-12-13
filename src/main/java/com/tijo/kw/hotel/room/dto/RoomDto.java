@@ -18,7 +18,6 @@ public class RoomDto {
     Integer number;
     UUID typeId;
     Integer floor;
-    String photoUrl;
 
     public Room toEntity() {
         return Room.builder()
@@ -26,7 +25,6 @@ public class RoomDto {
                 .number(number)
                 .typeId(typeId)
                 .floor(floor)
-                .photoUrl(photoUrl)
                 .build();
     }
 
@@ -39,8 +37,6 @@ public class RoomDto {
             throw new InvalidValuesException("Room number");
         }
 
-        if (photoUrl == null || photoUrl.isEmpty()) {
-            throw new InvalidValuesException("Room number");
-        }
+
     }
 }

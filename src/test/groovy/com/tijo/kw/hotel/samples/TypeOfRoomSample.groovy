@@ -13,7 +13,8 @@ trait TypeOfRoomSample {
             numberOfBeds  : 1,
             bathroom      : true,
             balcony       : false,
-            pricePerDay   : 100.00
+            pricePerDay   : 100.00,
+            photoUrl      : "x"
     ] as Map<String, Object>
 
 
@@ -27,6 +28,7 @@ trait TypeOfRoomSample {
                 .bathroom(result.bathroom as Boolean)
                 .balcony(result.balcony as Boolean)
                 .pricePerDay(result.pricePerDay as Double)
+                .photoUrl(result.photoUrl as String)
                 .build()
     }
 }

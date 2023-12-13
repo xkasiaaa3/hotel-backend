@@ -31,6 +31,5 @@ public class Room {
     @Column(name="floor")
     int floor;
 
-    @Column(name="photo_url")
-    String photoUrl;
+
 }

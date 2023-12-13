@@ -7,11 +7,10 @@ trait RoomSample implements TypeOfRoomSample {
     static UUID ROOM_ID = UUID.randomUUID()
 
     private Map<String, Object> DEFAULT_ROOM = [
-            id      : ROOM_ID,
-            number  : 1,
-            typeId  : ROOM_TYPE_ID,
-            floor   : 1,
-            photoUrl: "x"
+            id    : ROOM_ID,
+            number: 1,
+            typeId: ROOM_TYPE_ID,
+            floor : 1
     ] as Map<String, Object>
 
     RoomDto createRoom(Map<String, Object> changes = [:]) {
@@ -21,7 +20,6 @@ trait RoomSample implements TypeOfRoomSample {
                 .number(result.number as Integer)
                 .typeId(result.typeId as UUID)
                 .floor(result.floor as Integer)
-                .photoUrl(result.photoUrl as String)
                 .build()
     }
 

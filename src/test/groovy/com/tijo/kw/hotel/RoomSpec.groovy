@@ -36,7 +36,7 @@ class RoomSpec extends Specification implements RoomSample {
         then: "Room is not added"
         thrown(InvalidValuesException)
         where:
-        room << [createRoom([photoUrl: null]), createRoom([photoUrl: ""]), createRoom([floor: null]), createRoom([number: null])]
+        room << [createRoom([floor: null]), createRoom([number: null])]
     }
 
     @Unroll

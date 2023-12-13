@@ -14,28 +14,31 @@ import java.util.UUID;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Getter
-@Table(name="types_of_rooms")
+@Table(name = "types_of_rooms")
 public class TypeOfRoom {
 
     @Id
     UUID id;
 
-    @Column(name="name")
+    @Column(name = "name")
     String name;
 
-    @Column(name="number_of_people")
+    @Column(name = "number_of_people")
     int numberOfPeople;
 
-    @Column(name="number_of_beds")
+    @Column(name = "number_of_beds")
     int numberOfBeds;
 
-    @Column(name="bathroom")
+    @Column(name = "bathroom")
     boolean bathroom;
 
-    @Column(name="balcony")
+    @Column(name = "balcony")
     boolean balcony;
 
-    @Column(name="price_per_day")
+    @Column(name = "price_per_day")
     double pricePerDay;
+
+    @Column(name = "photo_url")
+    String photoUrl;
 
 }

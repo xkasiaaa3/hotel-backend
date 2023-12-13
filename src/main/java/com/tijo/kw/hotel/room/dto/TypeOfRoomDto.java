@@ -20,6 +20,7 @@ public class TypeOfRoomDto {
     Boolean bathroom;
     Boolean balcony;
     Double pricePerDay;
+    String photoUrl;
 
     public TypeOfRoom toEntity(){
         return TypeOfRoom.builder()
@@ -30,6 +31,7 @@ public class TypeOfRoomDto {
                 .balcony(balcony)
                 .bathroom(bathroom)
                 .pricePerDay(pricePerDay)
+                .photoUrl(photoUrl)
                 .build();
     }
 
@@ -42,6 +44,7 @@ public class TypeOfRoomDto {
                 .balcony(typeOfRoom.isBalcony())
                 .bathroom(typeOfRoom.isBathroom())
                 .pricePerDay(typeOfRoom.getPricePerDay())
+                .photoUrl(typeOfRoom.getPhotoUrl())
                 .build();
     }
 
@@ -55,5 +58,8 @@ public class TypeOfRoomDto {
             throw new InvalidValuesException("Number of people");
         }
 
+        if (photoUrl == null || photoUrl == ""){
+            throw new InvalidValuesException("Photo url");
+        }
     }
 }

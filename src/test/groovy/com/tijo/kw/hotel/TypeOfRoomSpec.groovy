@@ -30,4 +30,14 @@ class TypeOfRoomSpec extends Specification implements TypeOfRoomSample {
         where:
         typeOfRoom << [createTypeOfRoom([numberOfBeds: 0]), createTypeOfRoom([numberOfPeople: 0]), createTypeOfRoom([numberOfBeds: -10]), createTypeOfRoom([numberOfPeople: -10])]
     }
+
+    @Unroll
+    def "Admin can't add a room with empty photoUrl"() {
+        when: "User adds the room with invalid values"
+        roomFacade.addTypeOfRoom(typeOfRoom)
+        then: "Room is not added"
+        thrown(InvalidValuesException)
+        where:
+        typeOfRoom << [createTypeOfRoom([photoUrl: null]),createTypeOfRoom([photoUrl: ""])]
+    }
 }

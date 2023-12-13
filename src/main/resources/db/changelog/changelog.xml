@@ -13,6 +13,10 @@
         <comment>dodanie w tabeli user password i usunięcie kolumny phone number</comment>
     </changeSet>
 
+    <changeSet id="3" author="k.baczek">
+        <sqlFile path="db/changelog/sql/3-KB.sql" splitStatements="true" endDelimiter=";" stripComments="true"></sqlFile>
+        <comment>przeniesienie photoUrl z room do typeofroom</comment>
+    </changeSet>
 
     <!--    example-->
     <!--    <changeSet id="1" author="autor">-->
