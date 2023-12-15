@@ -1,5 +1,6 @@
 package com.tijo.kw.hotel.reservation.domain;
 
+import com.tijo.kw.hotel.reservation.dto.FullReservationDto;
 import com.tijo.kw.hotel.reservation.dto.MakeReservationDto;
 import com.tijo.kw.hotel.reservation.dto.ReservationDto;
 import com.tijo.kw.hotel.reservation.dto.ReservationRangeDto;
@@ -8,21 +9,27 @@ import com.tijo.kw.hotel.reservation.repository.ReservationRepository;
 import com.tijo.kw.hotel.room.domain.RoomFacade;
 import com.tijo.kw.hotel.room.dto.RoomDto;
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto;
+import com.tijo.kw.hotel.security.auth.AuthenticationService;
+import com.tijo.kw.hotel.user.dto.UserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.tijo.kw.hotel.reservation.dto.FullReservationDto.makeFullReservation;
+
 public class ReservationFacade {
 
     ReservationRepository reservationRepository;
 
     RoomFacade roomFacade;
+    AuthenticationService authenticationService;
 
-    public ReservationFacade(ReservationRepository reservationRepository, RoomFacade roomFacade) {
+    public ReservationFacade(ReservationRepository reservationRepository, RoomFacade roomFacade, AuthenticationService authenticationService) {
         this.reservationRepository = reservationRepository;
         this.roomFacade = roomFacade;
+        this.authenticationService = authenticationService;
     }
 
     public ReservationDto makeReservation(MakeReservationDto makeReservation) {
@@ -52,11 +59,12 @@ public class ReservationFacade {
 
 
     }
+
     public UUID getAvailableRoom(UUID typeOfRoomId, ReservationRangeDto reservationRange) {
-        List<RoomDto> rooms= getAvailableRooms(reservationRange);
+        List<RoomDto> rooms = getAvailableRooms(reservationRange);
 
         for (RoomDto room : rooms) {
-            if (room.getTypeId().equals(typeOfRoomId)){
+            if (room.getTypeId().equals(typeOfRoomId)) {
                 return room.getId();
             }
         }
@@ -79,4 +87,23 @@ public class ReservationFacade {
 
         return allRooms.stream().filter(room -> !takenRoomsIds.contains(room.getId())).collect(Collectors.toList());
     }
+
+    public List<FullReservationDto> getReservations() {
+
+        return reservationRepository.findAll().stream().map(ReservationDto::fromEntity)
+                .map(this::buildFullReservation)
+                .collect(Collectors.toList());
+    }
+
+    private FullReservationDto buildFullReservation(ReservationDto reservation) {
+
+        UserDetailsDto user = authenticationService.getUserDetails(reservation.getUserId());
+        RoomDto room = roomFacade.getRoom(reservation.getRoomId());
+        TypeOfRoomDto type = roomFacade.getTypeOfRoom(room.getTypeId());
+
+        return makeFullReservation(reservation, user, type, room);
+
+    }
+
+
 }

@@ -33,4 +33,16 @@ public class ReservationDto {
                 .build();
     }
 
+    public static ReservationDto fromEntity(Reservation reservation) {
+        return ReservationDto.builder()
+                .allInclusive(reservation.isAllInclusive())
+                .endDate(reservation.getEndDate())
+                .price(reservation.getPrice())
+                .startDate(reservation.getStartDate())
+                .id(reservation.getId())
+                .roomId(reservation.getRoomId())
+                .userId(reservation.getUserId())
+                .build();
+    }
+
 }

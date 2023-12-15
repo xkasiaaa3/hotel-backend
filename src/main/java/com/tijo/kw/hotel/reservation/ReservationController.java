@@ -1,6 +1,7 @@
 package com.tijo.kw.hotel.reservation;
 
 import com.tijo.kw.hotel.reservation.domain.ReservationFacade;
+import com.tijo.kw.hotel.reservation.dto.FullReservationDto;
 import com.tijo.kw.hotel.reservation.dto.MakeReservationDto;
 import com.tijo.kw.hotel.reservation.dto.ReservationDto;
 import com.tijo.kw.hotel.reservation.dto.ReservationRangeDto;
@@ -8,10 +9,7 @@ import com.tijo.kw.hotel.room.dto.RoomDto;
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +28,13 @@ public class ReservationController {
     @Operation(summary = "Makes reservation and returns full reservation")
     public ResponseEntity<ReservationDto> addReservation(@RequestBody MakeReservationDto makeReservation) {
         return ResponseEntity.ok(reservationFacade.makeReservation(makeReservation));
+    }
+
+
+    @GetMapping(value = "all")
+    @Operation(summary = "Return list of all made reservations")
+    public ResponseEntity<List<FullReservationDto>> getReservations() {
+        return ResponseEntity.ok(reservationFacade.getReservations());
     }
 
     @PostMapping(value = "/available")
