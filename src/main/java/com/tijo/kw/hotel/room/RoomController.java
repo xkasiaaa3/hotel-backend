@@ -42,7 +42,7 @@ public class RoomController {
     public ResponseEntity<Boolean> deleteTypeOfRoom(@PathVariable UUID typeOfRoomId){
         return ResponseEntity.ok(roomFacade.deleteTypeOfRoom(typeOfRoomId));
     }
-
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping(value="/type")
     @Operation(summary = "Returns list of all types of room")
     public ResponseEntity<List<TypeOfRoomDto>> getTypesOfRoom(){
