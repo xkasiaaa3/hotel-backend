@@ -2,6 +2,7 @@ package com.tijo.kw.hotel.room.domain;
 
 import com.tijo.kw.hotel.reservation.dto.ReservationRangeDto;
 import com.tijo.kw.hotel.room.dto.RoomDto;
+import com.tijo.kw.hotel.room.dto.RoomWithTypeDto;
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto;
 import com.tijo.kw.hotel.room.entity.Room;
 import com.tijo.kw.hotel.room.entity.TypeOfRoom;
@@ -14,6 +15,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.tijo.kw.hotel.room.dto.RoomWithTypeDto.makeRoomWithType;
 
 public class RoomFacade {
 
@@ -45,6 +48,11 @@ public class RoomFacade {
 
     public List<RoomDto> getRooms() {
         return roomRepository.findAll().stream().map(RoomDto::fromEntity).collect(Collectors.toList());
+    }
+
+
+    public List<RoomWithTypeDto> getRoomsWithType() {
+        return roomRepository.findAll().stream().map(RoomDto::fromEntity).map(room -> makeRoomWithType(room, getTypeOfRoom(room.getTypeId()))).collect(Collectors.toList());
     }
 
     public boolean deleteRoom(UUID roomId) {
@@ -97,6 +105,7 @@ public class RoomFacade {
     private boolean ifRoomExistsByNumber(int roomNumber) {
         return roomRepository.existsByNumber(roomNumber);
     }
+
 
 
 }

@@ -2,6 +2,7 @@ package com.tijo.kw.hotel.room;
 
 import com.tijo.kw.hotel.room.domain.RoomFacade;
 import com.tijo.kw.hotel.room.dto.RoomDto;
+import com.tijo.kw.hotel.room.dto.RoomWithTypeDto;
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,12 @@ public class RoomController {
     @Operation(summary = "Returns list of all rooms")
     public ResponseEntity<List<RoomDto>> getRooms(){
         return ResponseEntity.ok(roomFacade.getRooms());
+    }
+
+    @GetMapping(value="/withtype")
+    @Operation(summary = "Returns list of all rooms with type name and price per day")
+    public ResponseEntity<List<RoomWithTypeDto>> getRoomsWithType(){
+        return ResponseEntity.ok(roomFacade.getRoomsWithType());
     }
 
     @GetMapping(value="/{typeOfRoomId}")
