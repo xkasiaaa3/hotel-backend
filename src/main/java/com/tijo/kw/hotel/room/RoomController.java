@@ -12,6 +12,7 @@ import java.util.UUID;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping(value="/api/room")
 public class RoomController {
     RoomFacade roomFacade;
