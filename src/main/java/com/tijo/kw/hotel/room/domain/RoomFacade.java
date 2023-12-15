@@ -91,7 +91,5 @@ public class RoomFacade {
         return roomRepository.existsByNumber(roomNumber);
     }
 
-    public List<TypeOfRoomDto> getAvailableTypesOfRoom(ReservationRangeDto reservationRange) {
-        return Collections.emptyList();
-    }
+
 }

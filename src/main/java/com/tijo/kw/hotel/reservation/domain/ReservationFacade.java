@@ -3,6 +3,7 @@ package com.tijo.kw.hotel.reservation.domain;
 import com.tijo.kw.hotel.reservation.dto.MakeReservationDto;
 import com.tijo.kw.hotel.reservation.dto.ReservationDto;
 import com.tijo.kw.hotel.reservation.dto.ReservationRangeDto;
+import com.tijo.kw.hotel.reservation.exception.NoAvailableRoom;
 import com.tijo.kw.hotel.reservation.repository.ReservationRepository;
 import com.tijo.kw.hotel.room.domain.RoomFacade;
 import com.tijo.kw.hotel.room.dto.RoomDto;
@@ -51,17 +52,22 @@ public class ReservationFacade {
 
 
     }
-
     public UUID getAvailableRoom(UUID typeOfRoomId, ReservationRangeDto reservationRange) {
-        RoomDto room = getAvailableRooms(reservationRange).stream().filter(r -> r.getTypeId() == typeOfRoomId).findFirst().orElseThrow();
-        return room.getId();
+        List<RoomDto> rooms= getAvailableRooms(reservationRange);
+
+        for (RoomDto room : rooms) {
+            if (room.getTypeId().equals(typeOfRoomId)){
+                return room.getId();
+            }
+        }
+        throw new NoAvailableRoom("There is no room available");
     }
 
     public List<UUID> getAvailableTypesOfRoomIds(ReservationRangeDto reservationRange) {
 
         List<RoomDto> rooms = getAvailableRooms(reservationRange);
 
-        return rooms.stream().map(r -> r.getTypeId()).distinct().collect(Collectors.toList());
+        return rooms.stream().map(RoomDto::getTypeId).distinct().collect(Collectors.toList());
 
     }
 
