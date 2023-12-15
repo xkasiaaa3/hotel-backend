@@ -14,6 +14,7 @@ import com.tijo.kw.hotel.room.repository.TypeOfRoomRepository
 import com.tijo.kw.hotel.samples.ReservationSample
 import com.tijo.kw.hotel.samples.RoomSample
 import com.tijo.kw.hotel.samples.TypeOfRoomSample
+import com.tijo.kw.hotel.security.auth.AuthenticationService
 import org.springframework.boot.test.mock.mockito.MockBean
 import spock.lang.Specification
 
@@ -25,7 +26,7 @@ class ReservationSpec extends Specification implements RoomSample, TypeOfRoomSam
 
     ReservationRepository reservationRepository = new InMemoryReservationRepository();
 
-    ReservationFacade reservationFacade = new ReservationFacade(reservationRepository, roomFacade);
+    ReservationFacade reservationFacade = new ReservationFacade(reservationRepository, roomFacade, Mock(AuthenticationService));
 
 
     def setup() {
