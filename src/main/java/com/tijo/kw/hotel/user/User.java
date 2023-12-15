@@ -1,11 +1,11 @@
 package com.tijo.kw.hotel.user;
 
+import com.tijo.kw.hotel.user.dto.UserDetailsDto;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Table(name = "users")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class User  implements UserDetails {
+public class User implements UserInfo {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   UUID id;
@@ -62,5 +62,16 @@ public class User  implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  @Override
+  public UserDetailsDto getUserDetails() {
+    return UserDetailsDto.builder()
+            .id(id)
+            .email(email)
+            .firstName(name)
+            .lastName(surname)
+            .role(role)
+            .build();
   }
 }

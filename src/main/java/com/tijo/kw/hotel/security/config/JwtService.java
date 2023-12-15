@@ -1,5 +1,6 @@
 package com.tijo.kw.hotel.security.config;
 
+import com.tijo.kw.hotel.user.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -30,15 +31,16 @@ public class JwtService {
     return claimsResolver.apply(claims);
   }
 
-  public String generateToken(UserDetails userDetails) {
+  public String generateToken(UserInfo userDetails) {
     return generateToken(new HashMap<>(), userDetails);
   }
 
-  public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+  public String generateToken(Map<String, Object> extraClaims, UserInfo userDetails) {
     return Jwts.builder()
             .setClaims(extraClaims)
             .setSubject(userDetails.getUsername())
             .setIssuedAt(new Date(System.currentTimeMillis()))
+            .claim("userDetails",userDetails.getUserDetails())
             .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
             .signWith(getSignInKey(), SignatureAlgorithm.HS256)
             .compact();

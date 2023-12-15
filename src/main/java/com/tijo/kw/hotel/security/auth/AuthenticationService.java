@@ -1,6 +1,8 @@
 package com.tijo.kw.hotel.security.auth;
 
 
+import com.tijo.kw.hotel.security.auth.exception.InvalidEmailAddressException;
+import com.tijo.kw.hotel.security.auth.exception.UserAlreadyExists;
 import com.tijo.kw.hotel.security.config.JwtService;
 import com.tijo.kw.hotel.user.Role;
 import com.tijo.kw.hotel.user.User;
@@ -24,6 +26,12 @@ public class AuthenticationService {
   AuthenticationManager authenticationManager;
 
   public void register(RegisterRequest request) {
+    if (invalidEmailAddress(request.getEmail())) {
+      throw new InvalidEmailAddressException("Invalid address email");
+    }
+    if (userExists(request.getEmail())) {
+      throw new UserAlreadyExists("User with email " + request.getEmail() + " is already exist");
+    }
     var user = User.builder()
             .name(request.getFirstName())
             .surname(request.getLastName())
@@ -35,11 +43,22 @@ public class AuthenticationService {
   }
 
   public AuthenticationResponse authenticate(AuthenticationRequest request) {
+    if (invalidEmailAddress(request.getEmail())) {
+      throw new InvalidEmailAddressException("Invalid address email");
+    }
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
     var user = repository.findByEmail(request.getEmail()).orElseThrow();
     var jwtToken = jwtService.generateToken(user);
     return AuthenticationResponse.builder()
             .token(jwtToken)
             .build();
+  }
+
+  private boolean userExists(String email) {
+    return repository.findByEmail(email).isPresent();
+  }
+
+  private static boolean invalidEmailAddress(String email) {
+    return !ValidateEmail.validateEmail(email);
   }
 }
