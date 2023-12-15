@@ -13,7 +13,10 @@ import java.util.UUID;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, UUID> {
 
-    @Query("SELECT r.roomId FROM Reservation r WHERE r.startDate <= :startDate AND r.endDate >= :endDate")
+    @Query("SELECT r.roomId FROM Reservation r " +
+            "WHERE (:startDate >= r.startDate AND :startDate <= r.endDate) " +
+            "OR (:endDate >= r.startDate AND :endDate <= r.endDate) " +
+            "OR (:startDate <= r.startDate AND :endDate >= r.endDate)")
     List<UUID> getRoomIdsNotAvailable(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
 }

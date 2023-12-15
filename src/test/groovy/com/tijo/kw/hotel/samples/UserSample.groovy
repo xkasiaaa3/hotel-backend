@@ -6,7 +6,7 @@ import com.tijo.kw.hotel.security.auth.RegisterRequest
 
 trait UserSample {
 
-    UUID USER_ID = UUID.randomUUID()
+    static UUID USER_ID = UUID.randomUUID()
 
     private Map<String, Object> DEFAULT_USER = [
             id         : USER_ID,

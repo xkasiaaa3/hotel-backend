@@ -11,6 +11,7 @@ import com.tijo.kw.hotel.security.auth.RegisterRequest
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
@@ -33,8 +34,8 @@ class UserRoomIntegrationSpec extends Specification implements UserSample, RoomS
 
     def setup() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build()
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/register").content(om.writeValueAsString(REGISTER_REQUEST)))
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/authenticate").content(om.writeValueAsString(AUTHENTICATION_REQUEST)))
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/register").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(REGISTER_REQUEST)))
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/authenticate").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(AUTHENTICATION_REQUEST)))
     }
 
     def "Logged user should get list of types of room"() {
@@ -47,14 +48,14 @@ class UserRoomIntegrationSpec extends Specification implements UserSample, RoomS
 
     def "Logged user can't add new room"() {
         when: "User tries to add room"
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/room").content(om.writeValueAsString(createRoom()))).andReturn()
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/room").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(createRoom()))).andReturn()
         then: "User can't add room"
         result.getResponse().status != 200
     }
 
     def "Logged user can't add new type of room"() {
         when: "User tries to add type of room"
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/room/type").content(om.writeValueAsString(createTypeOfRoom()))).andReturn()
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/room/type").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(createTypeOfRoom()))).andReturn()
         then: "User can't add room"
         result.getResponse().status != 200
     }

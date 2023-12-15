@@ -81,7 +81,10 @@ public class RoomFacade {
     }
 
     public TypeOfRoomDto getTypeOfRoom(UUID typeOfRoomId) {
-        return TypeOfRoomDto.builder().build();
+
+        TypeOfRoom typeOfRoom = typeOfRoomRepository.findById(typeOfRoomId).orElseThrow(() ->new RoomTypeNotExistingException("Room type with given id doesn't exist"));
+
+        return TypeOfRoomDto.fromEntity(typeOfRoom);
     }
 
     private boolean ifRoomExistsByNumber(int roomNumber) {

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/reservation")
@@ -21,15 +22,19 @@ public class ReservationController {
 
     ReservationFacade reservationFacade;
 
+    public ReservationController(ReservationFacade reservationFacade) {
+        this.reservationFacade = reservationFacade;
+    }
+
     @PostMapping(value = "")
     @Operation(summary = "Makes reservation and returns full reservation")
-    public ResponseEntity<ReservationDto> addRoom(@RequestBody MakeReservationDto makeReservation) {
+    public ResponseEntity<ReservationDto> addReservation(@RequestBody MakeReservationDto makeReservation) {
         return ResponseEntity.ok(reservationFacade.makeReservation(makeReservation));
     }
 
     @PostMapping(value = "/available")
-    @Operation(summary = "Returns list of types of room that have available rooms in given reservation range")
-    public ResponseEntity<List<TypeOfRoomDto>> getAvailableTypesOfRoom(@RequestBody ReservationRangeDto reservationRange) {
-        return ResponseEntity.ok(reservationFacade.getAvailableTypesOfRoom(reservationRange));
+    @Operation(summary = "Returns list of types of room' ids that have available rooms in given reservation range")
+    public ResponseEntity<List<UUID>> getAvailableTypesOfRoomIds(@RequestBody ReservationRangeDto reservationRange) {
+        return ResponseEntity.ok(reservationFacade.getAvailableTypesOfRoomIds(reservationRange));
     }
 }

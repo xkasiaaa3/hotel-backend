@@ -11,6 +11,7 @@ import com.tijo.kw.hotel.security.auth.RegisterRequest
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.http.MediaType
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.MvcResult
@@ -45,14 +46,14 @@ class GuestRoomIntegrationSpec extends Specification implements UserSample, Room
 
     def "Guest can't add new room"() {
         when: "Guest tries to add room"
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/room").content(om.writeValueAsString(createRoom()))).andReturn()
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/room").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(createRoom()))).andReturn()
         then: "Guest can't add room"
         result.getResponse().status != 200
     }
 
     def "Guest can't add new type of room"() {
         when: "Guest tries to add type of room"
-        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/room/type").content(om.writeValueAsString(createTypeOfRoom()))).andReturn()
+        MvcResult result = mockMvc.perform(MockMvcRequestBuilders.post("/api/room/type").contentType(MediaType.APPLICATION_JSON).content(om.writeValueAsString(createTypeOfRoom()))).andReturn()
         then: "Guest can't add room"
         result.getResponse().status != 200
     }

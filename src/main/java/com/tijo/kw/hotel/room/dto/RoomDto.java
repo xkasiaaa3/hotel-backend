@@ -25,7 +25,6 @@ public class RoomDto {
                 .typeId(room.getTypeId())
                 .number(room.getNumber())
                 .floor(room.getFloor())
-                .photoUrl(room.getPhotoUrl())
                 .build();
     }
 

@@ -6,7 +6,7 @@ import java.time.LocalDate
 trait ReservationSample implements RoomSample, UserSample {
 
     UUID RESERVATION_ID = UUID.randomUUID()
-    LocalDate START_DATE = LocalDate.parse("2030-06-06")
+    LocalDate START_DATE = LocalDate.parse("2030-06-05")
     LocalDate END_DATE =LocalDate.parse("2030-06-08")
 
     private Map<String, Object> DEFAULT_RESERVATION = [
@@ -16,7 +16,7 @@ trait ReservationSample implements RoomSample, UserSample {
             userId      : USER_ID,
             roomId      : ROOM_ID,
             allInclusive: true,
-            price       : 250.00
+            price       : 300.00
     ] as Map<String, Object>
 
     ReservationDto createReservation(Map<String, Object> changes = [:]) {

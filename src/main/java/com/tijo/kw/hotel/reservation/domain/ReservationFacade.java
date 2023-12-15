@@ -17,11 +17,11 @@ public class ReservationFacade {
 
     ReservationRepository reservationRepository;
 
-    @Autowired
     RoomFacade roomFacade;
 
-    public ReservationFacade(ReservationRepository reservationRepository) {
+    public ReservationFacade(ReservationRepository reservationRepository, RoomFacade roomFacade) {
         this.reservationRepository = reservationRepository;
+        this.roomFacade = roomFacade;
     }
 
     public ReservationDto makeReservation(MakeReservationDto makeReservation) {
@@ -57,11 +57,11 @@ public class ReservationFacade {
         return room.getId();
     }
 
-    public List<TypeOfRoomDto> getAvailableTypesOfRoom(ReservationRangeDto reservationRange) {
+    public List<UUID> getAvailableTypesOfRoomIds(ReservationRangeDto reservationRange) {
 
         List<RoomDto> rooms = getAvailableRooms(reservationRange);
 
-        return rooms.stream().map(r -> roomFacade.getTypeOfRoom(r.getTypeId())).distinct().collect(Collectors.toList());
+        return rooms.stream().map(r -> r.getTypeId()).distinct().collect(Collectors.toList());
 
     }
 

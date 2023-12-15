@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class InMemoryReservationRepository implements ReservationRepository {
 
     List<Reservation> table = new ArrayList<>();
+
     @Override
     public void flush() {
 
@@ -177,9 +178,12 @@ public class InMemoryReservationRepository implements ReservationRepository {
     public List<UUID> getRoomIdsNotAvailable(LocalDate startDate, LocalDate endDate) {
 
         return table.stream()
-                .filter(r -> r.getStartDate().isBefore(startDate))
-                .filter(r -> r.getEndDate().isAfter(endDate))
-                .map(r -> r.getId())
+                .filter(r -> (startDate.isAfter(r.getStartDate()) || r.getStartDate().isEqual(startDate))
+                        && (endDate.isBefore(r.getEndDate()) || r.getEndDate().isEqual(endDate))
+                        || (startDate.isBefore(r.getStartDate()) && endDate.isAfter(r.getEndDate()))
+                        || (startDate.isAfter(r.getStartDate()) && startDate.isBefore(r.getEndDate()))
+                        || (endDate.isAfter(r.getStartDate()) && endDate.isBefore(r.getEndDate())))
+                .map(Reservation::getRoomId)
                 .collect(Collectors.toList());
     }
 //    @Query("SELECT r.roomId FROM Reservation r WHERE r.startDate <= :startDate AND r.endDate >= :endDate")

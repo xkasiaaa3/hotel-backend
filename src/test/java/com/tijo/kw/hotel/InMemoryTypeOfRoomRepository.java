@@ -112,7 +112,7 @@ public class InMemoryTypeOfRoomRepository implements TypeOfRoomRepository{
 
     @Override
     public Optional<TypeOfRoom> findById(UUID uuid) {
-        return Optional.empty();
+        return table.stream().filter(type -> type.getId() == uuid).findFirst();
     }
 
     @Override
