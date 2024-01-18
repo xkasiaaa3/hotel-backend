@@ -14,6 +14,7 @@ import com.tijo.kw.hotel.user.dto.UserDetailsDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -106,4 +107,16 @@ public class ReservationFacade {
     }
 
 
+    public List<TypeOfRoomDto> getTypesOfRoomWithRooms() {
+
+        Set<UUID> typesWithRoomsIds = roomFacade.getRooms().stream().map(RoomDto::getTypeId).collect(Collectors.toSet());
+
+        List<TypeOfRoomDto> types = roomFacade.getTypesOfRoom();
+
+        return types.stream().filter(t -> typesWithRoomsIds.contains(t.getId())).distinct().collect(Collectors.toList());
+    }
+
+    public void  cleanup(){
+        reservationRepository.deleteAll();
+    }
 }

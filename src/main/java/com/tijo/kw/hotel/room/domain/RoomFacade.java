@@ -1,9 +1,7 @@
 package com.tijo.kw.hotel.room.domain;
 
 import com.tijo.kw.hotel.reservation.dto.ReservationRangeDto;
-import com.tijo.kw.hotel.room.dto.RoomDto;
-import com.tijo.kw.hotel.room.dto.RoomWithTypeDto;
-import com.tijo.kw.hotel.room.dto.TypeOfRoomDto;
+import com.tijo.kw.hotel.room.dto.*;
 import com.tijo.kw.hotel.room.entity.Room;
 import com.tijo.kw.hotel.room.entity.TypeOfRoom;
 import com.tijo.kw.hotel.room.exception.DuplicateNumberException;
@@ -28,8 +26,9 @@ public class RoomFacade {
         this.typeOfRoomRepository = typeOfRoomRepository;
     }
 
-    public RoomDto addRoom(RoomDto newRoom) {
+    public RoomDto addRoom(MakeRoomDto makeRoom) {
 
+        RoomDto newRoom = makeRoom.toRoomDto();
         newRoom.validate();
 
         if (ifRoomExistsByNumber(newRoom.getNumber())) {
@@ -65,7 +64,9 @@ public class RoomFacade {
         return true;
     }
 
-    public TypeOfRoomDto addTypeOfRoom(TypeOfRoomDto newTypeOfRoom) {
+    public TypeOfRoomDto addTypeOfRoom(MakeTypeOfRoomDto makeTypeOfRoom) {
+
+        TypeOfRoomDto newTypeOfRoom = makeTypeOfRoom.toTypeOfRoom();
 
         newTypeOfRoom.validate();
 
@@ -106,6 +107,8 @@ public class RoomFacade {
         return roomRepository.existsByNumber(roomNumber);
     }
 
-
-
+    public void cleanup() {
+        roomRepository.deleteAll();
+        typeOfRoomRepository.deleteAll();
+    }
 }

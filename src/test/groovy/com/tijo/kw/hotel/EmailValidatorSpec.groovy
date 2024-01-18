@@ -9,11 +9,11 @@ class EmailValidatorSpec extends Specification {
     @Unroll
     def "Should check address email validation "() {
         when: "check address email"
-        def validate = ValidateEmail.validateEmail(EmailAddress as String)
+        def validate = ValidateEmail.validateEmail(EMAIL_ADDRESS as String)
         then: "correct address email return true "
-        validate == IsCorrect
+        validate == IS_CORRECT
         where:
-        EmailAddress                | IsCorrect
+        EMAIL_ADDRESS               | IS_CORRECT
         "correctEmail@gmail.com"    | true
         "correct1Email@gmail.com"   | true
         "email_incorrect_gmail_com" | false

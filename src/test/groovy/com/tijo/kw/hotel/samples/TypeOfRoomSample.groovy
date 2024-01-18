@@ -1,5 +1,6 @@
 package com.tijo.kw.hotel.samples
 
+import com.tijo.kw.hotel.room.dto.MakeTypeOfRoomDto
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto
 
 trait TypeOfRoomSample {
@@ -22,6 +23,19 @@ trait TypeOfRoomSample {
         def result = DEFAULT_ROOM_TYPE + changes
         TypeOfRoomDto.builder()
                 .id(result.id as UUID)
+                .name(result.name as String)
+                .numberOfPeople(result.numberOfPeople as Integer)
+                .numberOfBeds(result.numberOfBeds as Integer)
+                .bathroom(result.bathroom as Boolean)
+                .balcony(result.balcony as Boolean)
+                .pricePerDay(result.pricePerDay as Double)
+                .photoUrl(result.photoUrl as String)
+                .build()
+    }
+
+    MakeTypeOfRoomDto createTypeOfRoomRequest(Map<String, Object> changes = [:]) {
+        def result = DEFAULT_ROOM_TYPE + changes
+        MakeTypeOfRoomDto.builder()
                 .name(result.name as String)
                 .numberOfPeople(result.numberOfPeople as Integer)
                 .numberOfBeds(result.numberOfBeds as Integer)

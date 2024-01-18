@@ -16,9 +16,9 @@ class TypeOfRoomSpec extends Specification implements TypeOfRoomSample {
 
     def "Admin can add type of room with right values"() {
         when: "User adds the room with right values"
-        TypeOfRoomDto newTypeOfRoom = roomFacade.addTypeOfRoom(createTypeOfRoom())
+        TypeOfRoomDto newTypeOfRoom = roomFacade.addTypeOfRoom(createTypeOfRoomRequest())
         then: "Room is added"
-        newTypeOfRoom == createTypeOfRoom()
+        newTypeOfRoom == createTypeOfRoom([id: newTypeOfRoom.getId()])
     }
 
     @Unroll
@@ -28,7 +28,7 @@ class TypeOfRoomSpec extends Specification implements TypeOfRoomSample {
         then: "Room is not added"
         thrown(InvalidValuesException)
         where:
-        typeOfRoom << [createTypeOfRoom([numberOfBeds: 0]), createTypeOfRoom([numberOfPeople: 0]), createTypeOfRoom([numberOfBeds: -10]), createTypeOfRoom([numberOfPeople: -10])]
+        typeOfRoom << [createTypeOfRoomRequest([numberOfBeds: 0]), createTypeOfRoomRequest([numberOfPeople: 0]), createTypeOfRoomRequest([numberOfBeds: -10]), createTypeOfRoomRequest([numberOfPeople: -10])]
     }
 
     @Unroll
@@ -38,6 +38,6 @@ class TypeOfRoomSpec extends Specification implements TypeOfRoomSample {
         then: "Room is not added"
         thrown(InvalidValuesException)
         where:
-        typeOfRoom << [createTypeOfRoom([photoUrl: null]),createTypeOfRoom([photoUrl: ""])]
+        typeOfRoom << [createTypeOfRoomRequest([photoUrl: null]),createTypeOfRoomRequest([photoUrl: ""])]
     }
 }

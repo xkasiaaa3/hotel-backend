@@ -29,12 +29,16 @@ public class SecurityConfiguration {
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
     http.csrf(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(request -> request.requestMatchers("/api/auth/**", "swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**","/**")
+            .authorizeHttpRequests(request -> request.requestMatchers( "swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**")
                     .permitAll()
                     .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-//                    .requestMatchers("").hasAuthority(Role.USER.name())
-//                    .requestMatchers("").hasAuthority(Role.ADMIN.name())
-                    .anyRequest().authenticated())
+                    .requestMatchers(HttpMethod.POST, "/api/auth/register","/api/auth/authenticate", "api/reservation/available").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/reservation").permitAll()
+                    .requestMatchers(HttpMethod.POST, "/api/reservation").hasAuthority(Role.USER.name())
+                    .requestMatchers(HttpMethod.POST, "/api/**").hasAuthority(Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.GET, "/api/**").hasAuthority(Role.ADMIN.name())
+                    .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority(Role.ADMIN.name())
+                    .anyRequest().denyAll())
             .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .exceptionHandling(exception -> exception.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
             .authenticationProvider(authenticationProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

@@ -1,9 +1,7 @@
 package com.tijo.kw.hotel.reservation.dto;
 
-import com.tijo.kw.hotel.dto.UserDto;
 import com.tijo.kw.hotel.room.dto.RoomDto;
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto;
-import com.tijo.kw.hotel.user.User;
 import com.tijo.kw.hotel.user.dto.UserDetailsDto;
 import lombok.Builder;
 import lombok.Getter;

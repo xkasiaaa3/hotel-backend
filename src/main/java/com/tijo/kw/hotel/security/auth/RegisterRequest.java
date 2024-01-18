@@ -8,8 +8,8 @@ import lombok.experimental.FieldDefaults;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class RegisterRequest {
-  String firstName;
-  String lastName;
+  String name;
+  String surname;
   String email;
   String password;
 }
