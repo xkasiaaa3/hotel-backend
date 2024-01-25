@@ -46,7 +46,7 @@ public class ReservationController {
     }
 
     @GetMapping(value = "")
-    @Operation(summary = "Returns list of types of room' that haveat least one room")
+    @Operation(summary = "Returns list of types of room' that have at least one room")
     public ResponseEntity<List<TypeOfRoomDto>> getTypesOfRoomWithRooms() {
         return ResponseEntity.ok(reservationFacade.getTypesOfRoomWithRooms());
     }
