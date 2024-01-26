@@ -11,6 +11,7 @@ import com.tijo.kw.hotel.room.dto.RoomDto;
 import com.tijo.kw.hotel.room.dto.TypeOfRoomDto;
 import com.tijo.kw.hotel.security.auth.AuthenticationService;
 import com.tijo.kw.hotel.user.dto.UserDetailsDto;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -118,5 +119,9 @@ public class ReservationFacade {
 
     public void  cleanup(){
         reservationRepository.deleteAll();
+    }
+@Transactional
+    public void deleteAllReservationByRoomId(UUID roomId) {
+        reservationRepository.deleteAllByRoomId(roomId);
     }
 }

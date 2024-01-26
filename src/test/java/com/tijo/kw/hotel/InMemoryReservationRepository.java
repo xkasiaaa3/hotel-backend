@@ -186,5 +186,10 @@ public class InMemoryReservationRepository implements ReservationRepository {
                 .map(Reservation::getRoomId)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteAllByRoomId(UUID roomId) {
+
+    }
 //    @Query("SELECT r.roomId FROM Reservation r WHERE r.startDate <= :startDate AND r.endDate >= :endDate")
 }

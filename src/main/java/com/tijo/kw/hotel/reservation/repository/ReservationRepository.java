@@ -19,4 +19,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, UUID> 
             "OR (:startDate <= r.startDate AND :endDate >= r.endDate)")
     List<UUID> getRoomIdsNotAvailable(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
+    void deleteAllByRoomId(UUID roomId);
 }

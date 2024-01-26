@@ -1,6 +1,5 @@
 package com.tijo.kw.hotel.room.domain;
 
-import com.tijo.kw.hotel.reservation.dto.ReservationRangeDto;
 import com.tijo.kw.hotel.room.dto.*;
 import com.tijo.kw.hotel.room.entity.Room;
 import com.tijo.kw.hotel.room.entity.TypeOfRoom;
@@ -9,7 +8,6 @@ import com.tijo.kw.hotel.room.exception.RoomTypeNotExistingException;
 import com.tijo.kw.hotel.room.repository.RoomRepository;
 import com.tijo.kw.hotel.room.repository.TypeOfRoomRepository;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

@@ -50,6 +50,10 @@ public class ReservationController {
     public ResponseEntity<List<TypeOfRoomDto>> getTypesOfRoomWithRooms() {
         return ResponseEntity.ok(reservationFacade.getTypesOfRoomWithRooms());
     }
+    @DeleteMapping(value = "{roomId}")
+    public void deleteReservationByRoomId(@PathVariable("roomId") UUID roomId){
+        reservationFacade.deleteAllReservationByRoomId(roomId);
+    }
 
     @Hidden
     @PostMapping("/cleanup")
